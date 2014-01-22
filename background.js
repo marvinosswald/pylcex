@@ -35,7 +35,7 @@ function assingcontextMenu(){
     "contexts": ["link","selection"],
     "onclick" : function(e){
     	console.log(e.linkUrl);
-    	api.parseLinks([JSON.stringify(e.linkUrl),],function(callback){
+    	api.parseLinks({links:JSON.stringify([e.linkUrl])},function(callback){
     		console.log(callback);
     	});
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
