@@ -1,0 +1,280 @@
+/*!
+ *  Font Awesome 3.0.2
+ *  the fontawic font designed for use with Twitter Bootstrap
+ *  -------------------------------------------------------
+ *  The full suite of pictographic fontaws, examples, and documentation
+ *  can be found at: http://fortawesome.github.com/Font-Awesome/
+ *
+ *  License
+ *  -------------------------------------------------------
+ *  - The Font Awesome font is licensed under the SIL Open Font License - http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under the MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - The Font Awesome pictograms are licensed under the CC BY 3.0 License - http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fortawesome.github.com/Font-Awesome"
+
+ *  Contact
+ *  -------------------------------------------------------
+ *  Email: dave@davegandy.com
+ *  Twitter: http://twitter.com/fortaweso_me
+ *  Work: Lead Product Designer @ http://kyruus.com
+ */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('fontawesome-webfont.eot?v=3.0.1');
+  src: url('fontawesome-webfont.eot?#iefix&v=3.0.1') format('embedded-opentype'),
+    url('fontawesome-webfont.woff?v=3.0.1') format('woff'),
+    url('fontawesome-webfont.ttf?v=3.0.1') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+/*  Font Awesome styles
+    ------------------------------------------------------- */
+[class^="fontaw-"],
+[class*=" fontaw-"] {
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+
+  /* sprites.less reset */
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: normal;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0% 0%;
+  background-repeat: repeat;
+  margin-top: 0;
+}
+/* more sprites.less reset */
+.fontaw-white,
+.nav-pills > .active > a > [class^="fontaw-"],
+.nav-pills > .active > a > [class*=" fontaw-"],
+.nav-list > .active > a > [class^="fontaw-"],
+.nav-list > .active > a > [class*=" fontaw-"],
+.navbar-inverse .nav > .active > a > [class^="fontaw-"],
+.navbar-inverse .nav > .active > a > [class*=" fontaw-"],
+.dropdown-menu > li > a:hover > [class^="fontaw-"],
+.dropdown-menu > li > a:hover > [class*=" fontaw-"],
+.dropdown-menu > .active > a > [class^="fontaw-"],
+.dropdown-menu > .active > a > [class*=" fontaw-"],
+.dropdown-submenu:hover > a > [class^="fontaw-"],
+.dropdown-submenu:hover > a > [class*=" fontaw-"] {
+  background-image: none;
+}
+[class^="fontaw-"]:before,
+[class*=" fontaw-"]:before {
+  text-decoration: inherit;
+  display: inline-block;
+  speak: none;
+}
+/* makes sure fontaws active on rollover in links */
+a [class^="fontaw-"],
+a [class*=" fontaw-"] {
+  display: inline-block;
+}
+/* makes the font 33% larger relative to the fontaw container */
+.fontaw-large:before {
+  vertical-align: -10%;
+  font-size: 1.3333333333333333em;
+}
+.btn [class^="fontaw-"],
+.nav [class^="fontaw-"],
+.btn [class*=" fontaw-"],
+.nav [class*=" fontaw-"] {
+  display: inline;
+  /* keeps button heights with and without fontaws the same */
+
+}
+.btn [class^="fontaw-"].fontaw-large,
+.nav [class^="fontaw-"].fontaw-large,
+.btn [class*=" fontaw-"].fontaw-large,
+.nav [class*=" fontaw-"].fontaw-large {
+  line-height: .9em;
+}
+.btn [class^="fontaw-"].fontaw-spin,
+.nav [class^="fontaw-"].fontaw-spin,
+.btn [class*=" fontaw-"].fontaw-spin,
+.nav [class*=" fontaw-"].fontaw-spin {
+  display: inline-block;
+}
+.nav-tabs [class^="fontaw-"],
+.nav-pills [class^="fontaw-"],
+.nav-tabs [class*=" fontaw-"],
+.nav-pills [class*=" fontaw-"] {
+  /* keeps button heights with and without fontaws the same */
+
+}
+.nav-tabs [class^="fontaw-"],
+.nav-pills [class^="fontaw-"],
+.nav-tabs [class*=" fontaw-"],
+.nav-pills [class*=" fontaw-"],
+.nav-tabs [class^="fontaw-"].fontaw-large,
+.nav-pills [class^="fontaw-"].fontaw-large,
+.nav-tabs [class*=" fontaw-"].fontaw-large,
+.nav-pills [class*=" fontaw-"].fontaw-large {
+  line-height: .9em;
+}
+li [class^="fontaw-"],
+.nav li [class^="fontaw-"],
+li [class*=" fontaw-"],
+.nav li [class*=" fontaw-"] {
+  display: inline-block;
+  width: 1.25em;
+  text-align: center;
+}
+li [class^="fontaw-"].fontaw-large,
+.nav li [class^="fontaw-"].fontaw-large,
+li [class*=" fontaw-"].fontaw-large,
+.nav li [class*=" fontaw-"].fontaw-large {
+  /* increased font size for fontaw-large */
+
+  width: 1.5625em;
+}
+ul.fontaws {
+  list-style-type: none;
+  text-indent: -0.75em;
+}
+ul.fontaws li [class^="fontaw-"],
+ul.fontaws li [class*=" fontaw-"] {
+  width: .75em;
+}
+.fontaw-muted {
+  color: #eeeeee;
+}
+.fontaw-border {
+  border: solid 1px #eeeeee;
+  padding: .2em .25em .15em;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.fontaw-2x {
+  font-size: 2em;
+}
+.fontaw-2x.fontaw-border {
+  border-width: 2px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.fontaw-3x {
+  font-size: 3em;
+}
+.fontaw-3x.fontaw-border {
+  border-width: 3px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.fontaw-4x {
+  font-size: 4em;
+}
+.fontaw-4x.fontaw-border {
+  border-width: 4px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
+}
+[class^="fontaw-"].pull-left,
+[class*=" fontaw-"].pull-left {
+  margin-right: .3em;
+}
+[class^="fontaw-"].pull-right,
+[class*=" fontaw-"].pull-right {
+  margin-left: .3em;
+}
+.btn [class^="fontaw-"].pull-left.fontaw-2x,
+.btn [class*=" fontaw-"].pull-left.fontaw-2x,
+.btn [class^="fontaw-"].pull-right.fontaw-2x,
+.btn [class*=" fontaw-"].pull-right.fontaw-2x {
+  margin-top: .18em;
+}
+.btn [class^="fontaw-"].fontaw-spin.fontaw-large,
+.btn [class*=" fontaw-"].fontaw-spin.fontaw-large {
+  line-height: .8em;
+}
+.btn.btn-small [class^="fontaw-"].pull-left.fontaw-2x,
+.btn.btn-small [class*=" fontaw-"].pull-left.fontaw-2x,
+.btn.btn-small [class^="fontaw-"].pull-right.fontaw-2x,
+.btn.btn-small [class*=" fontaw-"].pull-right.fontaw-2x {
+  margin-top: .25em;
+}
+.btn.btn-large [class^="fontaw-"],
+.btn.btn-large [class*=" fontaw-"] {
+  margin-top: 0;
+}
+.btn.btn-large [class^="fontaw-"].pull-left.fontaw-2x,
+.btn.btn-large [class*=" fontaw-"].pull-left.fontaw-2x,
+.btn.btn-large [class^="fontaw-"].pull-right.fontaw-2x,
+.btn.btn-large [class*=" fontaw-"].pull-right.fontaw-2x {
+  margin-top: .05em;
+}
+.btn.btn-large [class^="fontaw-"].pull-left.fontaw-2x,
+.btn.btn-large [class*=" fontaw-"].pull-left.fontaw-2x {
+  margin-right: .2em;
+}
+.btn.btn-large [class^="fontaw-"].pull-right.fontaw-2x,
+.btn.btn-large [class*=" fontaw-"].pull-right.fontaw-2x {
+  margin-left: .2em;
+}
+.fontaw-spin {
+  display: inline-block;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  -webkit-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+@-moz-keyframes spin {
+  0% { -moz-transform: rotate(0deg); }
+  100% { -moz-transform: rotate(359deg); }
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(359deg); }
+}
+@-o-keyframes spin {
+  0% { -o-transform: rotate(0deg); }
+  100% { -o-transform: rotate(359deg); }
+}
+@-ms-keyframes spin {
+  0% { -ms-transform: rotate(0deg); }
+  100% { -ms-transform: rotate(359deg); }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(359deg); }
+}
+@-moz-document url-prefix() {
+  .fontaw-spin {
+    height: .9em;
+  }
+  .btn .fontaw-spin {
+    height: auto;
+  }
+  .fontaw-spin.fontaw-large {
+    height: 1.25em;
+  }
+  .btn .fontaw-spin.fontaw-large {
+    height: .75em;
+  }
+}.fontaw-signal:before    { content: "\f021"; }
+.fontaw-download-alt:before   { content: "\f022"; }
+.fontaw-inbox:before    { content: "\f023"; }
+.fontaw-refresh:before    { content: "\f024"; }
+.fontaw-info-sign:before    { content: "\f025"; }
+.fontaw-ok-circle:before    { content: "\f026"; }
+.fontaw-shopping-cart:before    { content: "\f027"; }
+.fontaw-cogs:before   { content: "\f028"; }
+.fontaw-envelope-alt:before   { content: "\f029"; }
+.fontaw-medkit:before   { content: "\f02a"; }
