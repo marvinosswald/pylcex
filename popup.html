@@ -1,0 +1,229 @@
+<!--/*The MIT License (MIT)
+
+Copyright (c) 2014 Marvin Oßwald
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.-->
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        min-width: 357px;
+        overflow-x: hidden;
+      }
+
+      #currentDownloads{
+        padding-top:10px;
+        padding-bottom: 10px;
+        max-height:400px;
+        overflow-y:auto;
+      }
+      #queue{
+        padding-top: 10px;
+        max-height:400px;
+        overflow-y:auto;
+      }
+      .settings select{
+       padding-bottom: 2px;
+      }
+      .activeFile, .packages{
+        background-color: #fffad5;
+          border: 1.5px solid #3571a2;
+          -webkit-border-radius: 4px;
+             -moz-border-radius: 4px;
+                  border-radius: 4px;
+          -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+             -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+                  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+        padding: 5px;
+        margin-bottom: 2px;
+        position: relative;
+        z-index: 1;
+      }
+      input{
+        padding-bottom: 2px;
+      }
+      .servercon{
+        width: 100 %;
+        text-align: center;
+        padding-right: 5px;
+        padding-left: 5px;
+        padding-top: 5px;
+
+      }
+      .serverconin{
+        display: inline-block;
+        padding-bottom: 4px;
+      }
+      .nav{
+        padding-top: 5px;
+      }
+      li{
+        padding-top: 5px;
+      }
+      .removefid{
+        padding-left: 1px;
+      }
+      .hiddendel{
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+
+        z-index: 2;
+        opacity: 0;
+      }
+      .hiddendel:hover{
+        opacity: 1;
+
+      }
+      .cancel{
+        margin-left:5px;
+        margin-top: 35px;
+        width: 305px;
+
+      }
+
+      .hiddenmove{
+        position: absolute;
+        left: 5px;
+        right: 5px;
+        top: 35px;
+        bottom: 0px;
+
+        z-index: 2;
+        opacity: 0;
+      }
+      .hiddenmove:hover{
+        opacity: 1;
+
+      }
+      .move{
+
+        width: 305px;
+
+      }
+
+
+
+    </style>
+    <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-progressbar.css">
+    <link rel="stylesheet" type="text/css" href="css/fontawesome.css">
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+     -->
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span1 dropdown">
+          <ul class="nav">
+            <li>
+                <i target="serverSettings" class="fontaw-signal fontaw-large menu tooli" data-toggle="tooltip" title="Server Settings"></i>
+            </li>
+            <li><i target="currentDownloads" class="fontaw-download-alt fontaw-large menu tooli" data-toggle="tooltip" title="Active Downloads"></i></li>
+            <li><i target="queue" class="fontaw-shopping-cart fontaw-large menu tooli" data-toggle="tooltip" title="Queue"></i></li>
+            <li><i target="collector" class="fontaw-inbox fontaw-large menu tooli" data-toggle="tooltip" title="Collector"></i></li>
+            <li><i target="settings" class="fontaw-cogs fontaw-large menu tooli" data-toggle="tooltip" title="Settings"></i></li>
+            <li><i target="info" class="fontaw-info-sign fontaw-large menu tooli" data-toggle="tooltip" title="Infos"></i></li>
+          </ul>
+        </div>
+
+        <div class="span11">
+          <div id="currentDownloads"></div>
+          <div id="queue"></div>
+          <div id="collector"></div>
+          <div id="info">
+            <p class="text-center">
+              <h1>Thank you</h1>for downloading my extension I hope you enjoy it, if you miss anything please let me know.
+            </p>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+          <input type="hidden" name="cmd" value="_s-xclick">
+          <input type="hidden" name="hosted_button_id" value="VW325GWM76PDW">
+          <input type="image" src="https://www.paypalobjects.com/en_US/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+          <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+        </form>
+            <p class="text-center"> Found a bug ? <a href="https://bitbucket.org/Osile/pylcex/" target="_newtab"><i class="fontaw-medkit fontaw-2x"></i></a> </p>
+            <p class="text-center">Made with Love by <a href="mailto:mo@onlinestage4you.de" target="_newtab">Marvin Osswald <i class="fontaw-envelope-alt"></i></a>
+              <a href="http://www.pylcex.de" target="_blank"><br><h1>www.pylcex.de</h1></p></a>
+
+
+
+          </div>
+
+          <div id="serverSettings" ><!-- Server Settings-->
+            <div class="tabbable">
+              <ul class="nav nav-tabs" id="servernav">
+                <li>
+                  <a href="#" id="btn_addserver">Add Server</a>
+                </li>
+              </ul>
+              <div class="tab-content" id="settingstabs">
+              </div>
+            </div>
+          </div><!--Ende Server Settings-->
+          <div id="settings">
+            <label>Show full file names: <input type="checkbox" id="inputFullFilenames"></label>
+            <label>Captcha Service: <input type="checkbox" id="inputCaptchaService"></label>
+            <p class="text-center">Captcha Service changes after a restart of Chrome.</p>
+            <br>
+            <button id="saveGeneralSettings" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="servercon">
+        <span id="speed" class="label pull-left"><i class="icon-arrow-down icon-white"></i>--- kb/s</span>
+        <span id="download" class="serverconin badge pull-left "><i class="icon-download icon-white"></i></span>
+        <span id="reconnect" class="serverconin badge pull-left "><i class="icon-refresh icon-white"></i></span>
+        <div class="btn-group serverconin pull-left " data-toggle="buttons-radio">
+          <button id="start" type="button" data-toggle="tooltip" title="Start Downloads again" class="btn btn-mini btn-primary tool"><i class="icon-play icon-white"></i></button>
+          <button id="pause" type="button" data-toggle="tooltip" title="pyLoad wont start any new downloads" class="btn btn-mini btn-primary tool"><i class="icon-pause icon-white"></i></button>
+          <button id="stop" type="button" data-toggle="tooltip" title="Aborts all running downloads" class="btn btn-mini btn-primary tool"><i class="icon-stop icon-white"></i></button>
+        </div>
+
+        <div class="dropup serverconin pull-right" style="padding-left:5px;">
+          <button id="btn_serverlist" class="btn dropdown-toggle btn-inverse btn-mini pull-right tool" data-toggle="dropdown" data-toggle="tooltip" title="Change Server">
+            <i class="fontaw-refresh fontaw-white"></i>
+          </button>
+          <ul id="serverlist" class="dropdown-menu">
+            <!--Serverlist-->
+          </ul>
+        </div>
+
+        <span id="overview" class="label label-inverse pull-right">- | - | -</span>
+    </div>
+
+<!--SCRIPTS-->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-progressbar.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
+
