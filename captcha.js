@@ -36,28 +36,28 @@ var tid = "";
 
 
 function getTask() {
-	$.get(db[db["general"].activeserver].server + '/api/getCaptchaTask', function (data) {
+	$.get(db[db.general.activeserver].server + '/api/getCaptchaTask', function (data) {
+    var type = data.type;
+    var resultType = data.textual;
+
 		tid = data.tid;
-		if (data.type != 'gif') {
+
+    if (type != 'gif') {
 			$("#inputResult").show();
 		}
 
-		var type = data.type;
-		var resultType = data.textual;
-		if (data.type == 'gif') {
-			document.getElementById("capimg").src = "data:image/gif;base64," + data.data;
-			$("#capimg").attr('style', 'cursor:pointer');
-			$("#capimg").load(function () {
-				var w = $("#capimg").width();
-				var h = $("#capimg").height();
-				console.log("width", w);
-				console.log("height", h);
-				chrome.runtime.sendMessage({greeting: 'getPageId'}, function (response) {
-					chrome.windows.update(response.answer, {
-						width: w * 2,
-						height: h * 2
-					});
-				});
+		if (type === 'gif') {
+      var img = $('#capimg');
+      // set the image source
+      img[0].src = "data:image/gif;base64," + data.data;
+			img.attr('style', 'cursor:pointer');
+			img.load(function () {
+				var w = img.width();
+				var h = img.height();
+        chrome.windows.update(chrome.window.WINDOW_ID_CURRENT, {
+          width: w * 2,
+          height: h * 2
+        });
 			});
 		} else {
 			document.getElementById("capimg").src = "data:image/jpg;base64," + data.data;
@@ -70,14 +70,12 @@ $("#capimg").click(function (e) {
 	console.log("Y", e.pageY);
 	var respos = "'" + e.pageX + "," + e.pageY + "'";
 	if (respos != '') {
-		$.post(db[db["general"].activeserver].server + '/api/setCaptchaResult', {
+		$.post(db[db.general.activeserver].server + '/api/setCaptchaResult', {
 			tid: tid,
 			result: respos
 		}, function (data) {
-			console.log("Captcha Transmitted", data);
 			if (data) {
 				window.close();
-				chrome.runtime.sendMessage({greeting: 'capclose'});
 			}
 		})
 	}
@@ -86,21 +84,20 @@ $("#capimg").click(function (e) {
 
 $("body").keydown(function (event) {
 	if (event.which == 13) {
-		console.log("Enter");
+		// ENTER
 		if ($("#inputResult").val() != '') {
-			$.post(db[db["general"].activeserver].server + '/api/setCaptchaResult', {
+			$.post(db[db.general.activeserver].server + '/api/setCaptchaResult', {
 				tid: tid,
 				result: "'" + $("#inputResult").val() + "'"
 			}, function (data) {
 				console.log("Captcha Transmitted", data);
 				if (data) {
 					window.close();
-					chrome.runtime.sendMessage({greeting: 'capclose'});
 				}
 			})
 		}
 	} else if (event.which == 27) {
-		//console.log("ESC");
+		// ESC
 		event.preventDefault();
 		window.close();
 	}

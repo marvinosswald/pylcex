@@ -40,10 +40,10 @@ SOFTWARE.*/
         db = r["db"];
       }else{
         console.log("Created clear DB!");
-        db["general"] = new Object();
-        db["general"]["activeserver"] = 1;
-        db["general"]["fullFilenames"] = 1;
-        db["general"]["captchaService"] = 1;
+        db.general = new Object();
+        db.general["activeserver"] = 1;
+        db.general["fullFilenames"] = 1;
+        db.general["captchaService"] = 1;
         savedb();
 
           chrome.windows.create({
@@ -59,8 +59,8 @@ SOFTWARE.*/
       console.log("DB",db);
 
       if(db){
-        var details = new Object;
-        details["text"] = db[db["general"].activeserver].servername;
+        var details = {};
+        details.text = db[db.general.activeserver].servername;
         chrome.browserAction.setBadgeText(details);
         getsession();
         assingcontextMenu();
@@ -80,16 +80,16 @@ SOFTWARE.*/
 //------------------------------------------------------
 function getsession(){
   try{
-    $.post(db[db["general"].activeserver].server + '/api/login',{
-            username: db[db["general"].activeserver].user,
-            password: db[db["general"].activeserver].password,
+    $.post(db[db.general.activeserver].server + '/api/login',{
+            username: db[db.general.activeserver].user,
+            password: db[db.general.activeserver].password
         }, function(data){
 
             if (data){
               console.log("Got Session ! :)");
               serveronline = true;
 
-              if (db["general"].captchaService){
+              if (db.general.captchaService){
               checkfornewcaptchas();
               }
 
@@ -126,7 +126,7 @@ var addfile = function(e){
     title: "Add File",
     message: destination + " of " + db[destinationServer].servername,
     iconUrl: "img/icons/icon_64.png"
-  }
+  };
 
   if (e.linkUrl && !e.selectionText){
     console.group("Single Link");
@@ -212,7 +212,7 @@ chrome.omnibox.onInputEntered.addListener(function(text) {
    var opt = {
     type: "basic",
     title: "Add File",
-    message: db[db["general"].activeserver].servername,
+    message: db[db.general.activeserver].servername,
     iconUrl: "img/icons/icon_64.png",
     buttons: [{title: "Add to Collector"},
               {title: "Add to Queue"}]
@@ -223,7 +223,7 @@ chrome.omnibox.onInputEntered.addListener(function(text) {
       chrome.notifications.onButtonClicked.addListener(function(id,btnIndex){
         var url = '"' + encodeURIComponent(text) + '",';
         console.log("btnIndex",btnIndex);
-          addtoserver(db[db["general"].activeserver].id,btnIndex,url);
+          addtoserver(db[db.general.activeserver].id,btnIndex,url);
       });
   }else{
       chrome.notifications.create('',serverofflinemsg,function(id){});
@@ -241,90 +241,96 @@ function addtoserver(destinationServer,destination,url){
 }
 
 //Captcha Service ##############################################################
-var open = 0;
-var tid = '';
 var width = 311;
 var height = 140;
-var pageid = 0;
 
 function checkfornewcaptchas(){
-  var tinfy = self.setInterval(function(){
-    $.get(db[db["general"].activeserver].server + '/api/isCaptchaWaiting',function(data){
-      if(data){
-        tid = getCapInfo();
-        if (tid != open){
-          var url = "captcha.html#" + tid;
-       //   var notification = webkitNotifications.createHTMLNotification(url);
-        //  notification.show();
-          chrome.windows.create({
-            url: url,
-            width: width,
-            height: height,
-            type: 'popup',
-            focused: true
-          },function(window){
-            console.log(window.id);
-            pageid = window.id;
-          });
-
-
-
-          open = tid;
-          console.log('notification opening');
-        }
-      }
-    });
-  },2000);
-
+	hasCaptchasWaiting( performCaptchaTask, checkfornewcaptchas );
 }
 
-function getCapInfo(){
-  $.get(db[db["general"].activeserver].server + '/api/getCaptchaTask', function(data){
-    var tid = data.tid;
-
-    return  tid;
-  });
+function hasCaptchasWaiting( cbIfTrue, cbIfFalse ) {
+	$.get(db[db.general.activeserver].server + '/api/isCaptchaWaiting',function(data){
+    console.log(data);
+		if( data === true ) {
+      console.log('A Captcha is waiting...');
+			cbIfTrue();
+		} else {
+			// wait 2000 ms to the next query
+			setTimeout(cbIfFalse, 2000);
+		}
+	});
 }
+
+var openWindowId = chrome.windows.WINDOW_ID_NONE;
+// before opening any windows, make sure we keep track of them
+chrome.windows.onRemoved.addListener(function(windowId) {
+  if(windowId === openWindowId) {
+    openWindowId = null;
+    // restart the loop
+    checkfornewcaptchas();
+  }
+});
+
+function performCaptchaTask() {
+	// get the captcha task id, then open the captcha window
+	$.get(db[db.general.activeserver].server + '/api/getCaptchaTask', function(data){
+
+		if( !data || !data.tid ) {
+			// okay, something went wrong, we dont have a task id. restart the loop, maybe?
+			checkfornewcaptchas();
+		}
+
+		var url = "captcha.html#" + data.tid;
+		//   var notification = webkitNotifications.createHTMLNotification(url);
+		//  notification.show();
+		chrome.windows.create({
+			url: url,
+			width: width,
+			height: height,
+			type: 'popup',
+			focused: true
+		},function(window){
+			openWindowId = window.id;
+		});
+	});
+}
+
 
 var url = '';
 // Extension Communication---------------------------------------------------
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-  if (request.greeting == 'capclose'){
-    open = '';
-  }else if(request.greeting == 'db'){
-    sendResponse({db: db});
-  }else if (request.greeting == 'anscap'){
-    var ans = prompt("Captcha Answer");
-    sendResponse({answer: ans});
-  }else if(request.greeting == 'getPageId'){
-    sendResponse({answer: pageid});
-  }else if (request.greeting == 'refreshdb'){
-    getdb();
-  }else if (request.greeting == 'updatedb'){
-    updatedb(request.greeting);
-  }else{
-    console.log('Transmitted Container', request.container);
-    var opt = {
-      type: "basic",
-      title: "Add DLC Container",
-      message: db[db["general"].activeserver].servername,
-      iconUrl: "img/icons/icon_64.png",
-      buttons: [{title: "Add to Collector"},
-                {title: "Add to Queue"}]
+    switch (request.greeting) {
+      case "db":
+        sendResponse({db: db});
+        break;
+      case "refreshdb":
+        getdb();
+        break;
+      case "updatedb":
+        updatedb(request.greeting);
+        break;
+      default:
+        console.log('Transmitted Container', request.container);
+        var opt = {
+          type: "basic",
+          title: "Add DLC Container",
+          message: db[db.general.activeserver].servername,
+          iconUrl: "img/icons/icon_64.png",
+          buttons: [{title: "Add to Collector"},
+            {title: "Add to Queue"}]
+        };
+        chrome.notifications.create('',opt,function(id){});
+        url = '"' + encodeURIComponent(request.container) + '",';
+        break;
     }
-
-    chrome.notifications.create('',opt,function(id){});
-    url = '"' + encodeURIComponent(request.container) + '",';
-  }
 });
 
 chrome.notifications.onButtonClicked.addListener(function(id,btnIndex){
-
   console.log("ID",id);
   console.log("btnIndex",btnIndex);
   console.log("url", url);
 
-  addtoserver(db[db["general"].activeserver].id,btnIndex,url);
+  addtoserver(db[db.general.activeserver].id,btnIndex,url);
 
 });
