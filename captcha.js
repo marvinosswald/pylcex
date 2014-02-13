@@ -22,13 +22,13 @@
 //captcha.js
 //by Marvin Oßwald
 var db = {};
-chrome.runtime.sendMessage({greeting: 'db'}, function (response) {
+chrome.runtime.sendMessage({greeting: "db"}, function (response) {
 	db = response.db;
 	if (db) {
 		getTask();
 	} else {
-		$('#wrap').append('<div id="info">Edit Settings</div>');
-		console.error('edit settings');
+		$("#wrap").append('<div id="info">Edit Settings</div>');
+		console.error("edit settings");
 	}
 });
 
@@ -36,21 +36,21 @@ var tid = "";
 
 
 function getTask() {
-	$.get(db[db.general.activeserver].server + '/api/getCaptchaTask', function (data) {
+	$.get(db[db.general.activeserver].server + "/api/getCaptchaTask", function (data) {
     var type = data.type;
     var resultType = data.textual;
 
 		tid = data.tid;
 
-    if (type != 'gif') {
+    if (type != "gif") {
 			$("#inputResult").show();
 		}
 
-		if (type === 'gif') {
-      var img = $('#capimg');
+		if (type === "gif") {
+      var img = $("#capimg");
       // set the image source
       img[0].src = "data:image/gif;base64," + data.data;
-			img.attr('style', 'cursor:pointer');
+			img.attr("style", "cursor:pointer");
 			img.load(function () {
 				var w = img.width();
 				var h = img.height();
@@ -69,8 +69,8 @@ $("#capimg").click(function (e) {
 	console.log("X", e.pageX);
 	console.log("Y", e.pageY);
 	var respos = "'" + e.pageX + "," + e.pageY + "'";
-	if (respos != '') {
-		$.post(db[db.general.activeserver].server + '/api/setCaptchaResult', {
+	if (respos != "") {
+		$.post(db[db.general.activeserver].server + "/api/setCaptchaResult", {
 			tid: tid,
 			result: respos
 		}, function (data) {
@@ -83,12 +83,14 @@ $("#capimg").click(function (e) {
 
 
 $("body").keydown(function (event) {
+
 	if (event.which == 13) {
+    var inpResultValue = $("#inputResult").val();
 		// ENTER
-		if ($("#inputResult").val() != '') {
-			$.post(db[db.general.activeserver].server + '/api/setCaptchaResult', {
+		if (inpResultValue != "") {
+			$.post(db[db.general.activeserver].server + "/api/setCaptchaResult", {
 				tid: tid,
-				result: "'" + $("#inputResult").val() + "'"
+				result: "'" + inpResultValue.val() + "'"
 			}, function (data) {
 				console.log("Captcha Transmitted", data);
 				if (data) {
