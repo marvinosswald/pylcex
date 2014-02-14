@@ -254,13 +254,19 @@ function checkfornewcaptchas() {
 }
 
 function hasCaptchasWaiting(cbIfTrue, cbIfFalse) {
-  $.get(db[db.general.activeserver].server + "/api/isCaptchaWaiting", function (data) {
-    console.log(data);
-    if (data === true) {
-      console.log("A Captcha is waiting...");
-      cbIfTrue();
-    } else {
-      // wait 2000 ms to the next query
+  $.ajax( {
+    url: db[db.general.activeserver].server + "/api/isCaptchaWaiting",
+    success: function (data) {
+      if (data === true) {
+        console.log("A Captcha is waiting...");
+        cbIfTrue();
+      } else {
+        // wait 2000 ms to the next query
+        setTimeout(cbIfFalse, 2000);
+      }
+    },
+    error: function() {
+      console.log('API Error while looking for new captchas');
       setTimeout(cbIfFalse, 2000);
     }
   });
