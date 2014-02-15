@@ -286,9 +286,10 @@ function performCaptchaTask() {
   // get the captcha task id, then open the captcha window
   $.get(db[db.general.activeserver].server + "/api/getCaptchaTask", function (data) {
 
-    if (!data || !data.tid) {
+    if (!data || data.tid === null || data.tid === undefined ) {
       // okay, something went wrong, we dont have a task id. restart the loop, maybe?
       checkfornewcaptchas();
+      return;
     }
 
     var url = "captcha.html#" + data.tid;
