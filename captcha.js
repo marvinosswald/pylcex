@@ -90,7 +90,7 @@ $("body").keydown(function (event) {
 		if (inpResultValue != "") {
 			$.post(db[db.general.activeserver].server + "/api/setCaptchaResult", {
 				tid: tid,
-				result: "'" + inpResultValue.val() + "'"
+				result: "'" + inpResultValue + "'"
 			}, function (data) {
 				console.log("Captcha Transmitted", data);
 				if (data) {
